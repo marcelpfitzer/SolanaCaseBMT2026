@@ -9,6 +9,11 @@ export function formatDate(sqliteDate: string): string {
   });
 }
 
+// "Daniel Müller" → "Daniel" (for greetings)
+export function firstName(name: string): string {
+  return name.trim().split(/\s+/)[0] || name;
+}
+
 // 169 → "2:49"
 export function formatDuration(seconds: number): string {
   return `${Math.floor(seconds / 60)}:${String(Math.round(seconds % 60)).padStart(2, "0")}`;

@@ -20,10 +20,10 @@ Open http://localhost:3000. On first start the database `data/payperread.sqlite`
 | Username      | Role   | Can do                                                        |
 | ------------- | ------ | ------------------------------------------------------------- |
 | `demo`        | reader | Read teasers, pay €0.05 to unlock articles                    |
-| `writer_demo` | writer | Publish articles, set payout wallet, see sales (`/write`)     |
-| `admin`       | admin  | Everything: users & roles, hide/delete any article (`/admin`) |
+| `writer_demo` | author | Publish articles, set payout wallet, see sales (`/write`)     |
+| `admin`       | admin  | Everything: review author applications, users & roles, hide/delete any article (`/admin`) |
 
-New readers and writers can register at `/signup`.
+New accounts are always **readers** (`/signup`). To write, a reader **applies for an author account** in Settings (motivation, topics, writing sample); an admin reviews every application on `/admin` and approves or rejects it. This keeps low-effort content off the site.
 
 ## How paying works
 

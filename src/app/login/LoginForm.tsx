@@ -25,7 +25,7 @@ export default function LoginForm({ next }: { next?: string }) {
       <form action={formAction} className="space-y-5">
         <input type="hidden" name="next" value={next ?? ""} />
         <Field label="Username">
-          <input ref={usernameRef} name="username" autoComplete="username" required className={inputClass} />
+          <input ref={usernameRef} name="username" defaultValue={state.values?.username} autoComplete="username" required className={inputClass} />
         </Field>
         <Field label="Password">
           <input

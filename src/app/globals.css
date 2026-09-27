@@ -145,11 +145,11 @@ body {
 .nav-pill {
   display: inline-flex;
   align-items: center;
-  height: 28px;
-  padding: 0 14px;
+  height: 34px;
+  padding: 0 16px;
   border-radius: 980px;
-  font-size: 12px;
-  letter-spacing: -0.12px;
+  font-size: 15px;
+  letter-spacing: -0.24px;
   transition: background 0.2s;
 }
 

@@ -3,7 +3,7 @@ import { removeArticle, togglePublished } from "@/app/actions";
 import ConfirmButton from "@/components/ConfirmButton";
 import { requireUser } from "@/lib/auth";
 import { lamportsToSol } from "@/lib/config";
-import { formatDate } from "@/lib/format";
+import { firstName, formatDate } from "@/lib/format";
 import {
   listWriterArticles,
   writerDailyRevenue,
@@ -123,7 +123,7 @@ export default async function WritePage({ searchParams }: PageProps<"/write">) {
       <div className="mx-auto max-w-[980px] space-y-8">
         <header>
           <p className="type-caption text-black/50">Writer dashboard</p>
-          <h1 className="type-section mt-1">Hi, {user.display_name}.</h1>
+          <h1 className="type-section mt-1">Hi, {firstName(user.display_name)}.</h1>
           <p className="type-sub mt-2 text-black/60">Here’s how your work is doing.</p>
         </header>
 

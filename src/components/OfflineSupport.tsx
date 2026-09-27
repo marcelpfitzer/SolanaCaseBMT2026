@@ -28,7 +28,7 @@ export default function OfflineSupport() {
 
   if (online) return null;
   return (
-    <div role="status" className="type-caption sticky top-12 z-10 bg-apple-ink px-4 py-2 text-center text-white">
+    <div role="status" style={{ top: 52 }} className="type-caption sticky z-10 bg-apple-ink px-4 py-2 text-center text-white">
       You’re offline. Your downloaded stories and podcasts still work:{" "}
       <a href="/library" className="text-apple-link-dark underline">
         open library

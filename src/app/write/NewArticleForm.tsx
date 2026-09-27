@@ -59,10 +59,10 @@ export default function NewArticleForm({ disabled }: { disabled: boolean }) {
       </fieldset>
 
       <Field label="Title">
-        <input name="title" required minLength={5} maxLength={120} className={inputClass} />
+        <input name="title" defaultValue={state.values?.title} required minLength={5} maxLength={120} className={inputClass} />
       </Field>
       <Field label="Teaser" hint="Free for everyone to read. Make them want more (20–300 characters).">
-        <textarea name="teaser" required minLength={20} maxLength={300} rows={2} className={inputClass} />
+        <textarea name="teaser" defaultValue={state.values?.teaser} required minLength={20} maxLength={300} rows={2} className={inputClass} />
       </Field>
 
       {isPodcast && (
@@ -91,6 +91,7 @@ export default function NewArticleForm({ disabled }: { disabled: boolean }) {
         <textarea
           key={kind}
           name="body"
+          defaultValue={state.values?.body}
           required
           minLength={isPodcast ? 20 : 100}
           rows={isPodcast ? 6 : 12}

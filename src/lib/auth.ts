@@ -42,7 +42,7 @@ export const getCurrentUser = cache(async (): Promise<User | null> => {
   if (!token) return null;
   const user = db
     .prepare(
-      `SELECT u.id, u.username, u.role, u.display_name, u.wallet
+      `SELECT u.id, u.username, u.role, u.display_name, u.wallet, u.avatar
        FROM sessions s JOIN users u ON u.id = s.user_id
        WHERE s.token_hash = ? AND s.expires_at > ?`,
     )

@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Uploaded podcast audio (demo episodes in media/podcasts are committed)
 /media/uploads
+
+# Uploaded profile pictures
+/media/avatars

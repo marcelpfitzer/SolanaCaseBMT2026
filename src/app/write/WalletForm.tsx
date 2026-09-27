@@ -16,7 +16,7 @@ export default function WalletForm({ current }: { current: string | null }) {
         <input
           ref={inputRef}
           name="wallet"
-          defaultValue={current ?? ""}
+          defaultValue={state.values?.wallet ?? current ?? ""}
           placeholder="Your Solana wallet address"
           required
           className={`${inputClass} font-mono text-[14px]`}

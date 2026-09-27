@@ -3,6 +3,7 @@ import FilterTabs from "@/components/FilterTabs";
 import ItemCard from "@/components/ItemCard";
 import { getCurrentUser } from "@/lib/auth";
 import { PRICE_CENTS, formatEur } from "@/lib/config";
+import { firstName } from "@/lib/format";
 import { canRead, listPublishedArticles, popularItems, recommendationsFor } from "@/lib/queries";
 
 const FILTERS = [
@@ -26,10 +27,10 @@ export default async function Home({ searchParams }: PageProps<"/">) {
     <>
       {user ? (
         // Logged in: a short greeting, so the content starts right away.
-        <section className="bg-apple-black px-4 pb-12 pt-14 text-white">
+        <section className="bg-apple-black px-4 text-white" style={{ paddingTop: 40, paddingBottom: 64 }}>
           <div className="mx-auto max-w-[980px]">
             <p className="type-caption text-white/60">Welcome back</p>
-            <h1 className="type-section mt-1">{user.display_name}.</h1>
+            <h1 className="type-section mt-1">{firstName(user.display_name)}.</h1>
             <p className="type-sub mt-3 text-white/70">
               {personal.length > 0
                 ? "New stories and podcasts that match what you’ve been reading."
@@ -38,7 +39,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           </div>
         </section>
       ) : (
-        <section className="bg-apple-black px-4 pb-20 pt-24 text-center text-white">
+        <section className="bg-apple-black px-4 text-center text-white" style={{ paddingTop: 56, paddingBottom: 88 }}>
           <h1 className="type-hero mx-auto max-w-[780px]">Read what matters. Pay for just that.</h1>
           <p className="type-sub mx-auto mt-4 max-w-[640px] text-white/80">
             Stories for {formatEur(PRICE_CENTS.article)}, podcasts for {formatEur(PRICE_CENTS.podcast)}. Straight to
@@ -48,7 +49,11 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             <Link href="/login" className="btn-blue">
               Log in
             </Link>
-            <Link href="/signup" className="btn-pill border-apple-link-dark text-apple-link-dark">
+            <Link
+              href="/signup"
+              className="btn-pill border-apple-link-dark text-apple-link-dark"
+              style={{ fontSize: 17, padding: "8px 18px", display: "inline-flex", alignItems: "center" }}
+            >
               Create account
             </Link>
           </div>

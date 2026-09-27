@@ -158,7 +158,9 @@ export function setUserWallet(userId: number, wallet: string | null) {
 
 export function findUserByUsername(username: string) {
   return db
-    .prepare("SELECT id, username, role, display_name, wallet, password_hash FROM users WHERE username = ?")
+    .prepare(
+      "SELECT id, username, role, display_name, wallet, avatar, password_hash FROM users WHERE username = ?",
+    )
     .get(username) as (User & { password_hash: string }) | undefined;
 }
 
@@ -167,6 +169,68 @@ export function createUser(username: string, passwordHash: string, role: "writer
     .prepare("INSERT INTO users (username, password_hash, role, display_name) VALUES (?, ?, ?, ?)")
     .run(username, passwordHash, role, displayName);
   return Number(result.lastInsertRowid);
+}
+
+export function updateName(userId: number, name: string) {
+  db.prepare("UPDATE users SET display_name = ? WHERE id = ?").run(name, userId);
+}
+
+export function setUserAvatar(userId: number, avatar: string | null) {
+  db.prepare("UPDATE users SET avatar = ? WHERE id = ?").run(avatar, userId);
+}
+
+// ---------- Author applications ----------
+
+export type AuthorApplication = {
+  id: number;
+  user_id: number;
+  motivation: string;
+  topics: string;
+  sample_url: string | null;
+  sample_text: string;
+  status: "pending" | "approved" | "rejected";
+  admin_note: string | null;
+  created_at: string;
+  reviewed_at: string | null;
+};
+
+export function latestApplication(userId: number): AuthorApplication | null {
+  const row = db
+    .prepare("SELECT * FROM author_applications WHERE user_id = ? ORDER BY id DESC LIMIT 1")
+    .get(userId) as AuthorApplication | undefined;
+  return row ? { ...row } : null;
+}
+
+export function createApplication(a: {
+  userId: number;
+  motivation: string;
+  topics: string;
+  sampleUrl: string | null;
+  sampleText: string;
+}) {
+  db.prepare(
+    "INSERT INTO author_applications (user_id, motivation, topics, sample_url, sample_text) VALUES (?, ?, ?, ?, ?)",
+  ).run(a.userId, a.motivation, a.topics, a.sampleUrl, a.sampleText);
+}
+
+export function listApplications(status: AuthorApplication["status"]) {
+  return db
+    .prepare(
+      `SELECT ap.*, u.username, u.display_name FROM author_applications ap JOIN users u ON u.id = ap.user_id
+       WHERE ap.status = ? ORDER BY ap.created_at ${status === "pending" ? "ASC" : "DESC"} LIMIT 20`,
+    )
+    .all(status) as (AuthorApplication & { username: string; display_name: string })[];
+}
+
+export function getApplication(id: number): AuthorApplication | null {
+  const row = db.prepare("SELECT * FROM author_applications WHERE id = ?").get(id) as AuthorApplication | undefined;
+  return row ?? null;
+}
+
+export function reviewApplication(id: number, status: "approved" | "rejected", note: string | null) {
+  db.prepare(
+    "UPDATE author_applications SET status = ?, admin_note = ?, reviewed_at = datetime('now') WHERE id = ?",
+  ).run(status, note, id);
 }
 
 export function setUserRole(userId: number, role: User["role"]) {

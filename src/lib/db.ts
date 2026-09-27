@@ -65,7 +65,25 @@ addColumn("articles", "audio_path", "TEXT"); // podcasts: file inside media/
 addColumn("articles", "duration_seconds", "INTEGER"); // podcasts: length
 addColumn("articles", "topics", "TEXT NOT NULL DEFAULT ''"); // e.g. "wallets,security"
 addColumn("users", "is_sample", "INTEGER NOT NULL DEFAULT 0"); // generated test readers
+addColumn("users", "first_name", "TEXT"); // no longer used (merged into display_name)
+addColumn("users", "avatar", "TEXT"); // "icon:<file>" or "upload:<file>", null = initial letter
 addColumn("purchases", "is_sample", "INTEGER NOT NULL DEFAULT 0"); // generated test sales
+
+// Readers who want to write apply first; an admin approves or rejects.
+db.exec(`
+  CREATE TABLE IF NOT EXISTS author_applications (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    motivation  TEXT NOT NULL,
+    topics      TEXT NOT NULL,
+    sample_url  TEXT,
+    sample_text TEXT NOT NULL,
+    status      TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+    admin_note  TEXT,
+    created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+    reviewed_at TEXT
+  )
+`);
 
 // Who looked at what. One row per viewer, item and day (so reloads don't inflate numbers).
 db.exec(`
@@ -164,6 +182,7 @@ export type User = {
   role: Role;
   display_name: string;
   wallet: string | null;
+  avatar: string | null;
 };
 
 export type ArticleSummary = {

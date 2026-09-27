@@ -4,39 +4,17 @@ import { useActionState } from "react";
 import { signup, type FormState } from "@/app/actions";
 import { Field, FormMessage, inputClass } from "@/components/ui";
 
+// Everyone signs up as a reader. Writing is possible after an approved author application.
 export default function SignupForm() {
   const [state, formAction, pending] = useActionState<FormState, FormData>(signup, {});
 
   return (
     <form action={formAction} className="space-y-5">
-      <fieldset>
-        <legend className="type-caption font-semibold">I want to</legend>
-        <div className="mt-2 grid grid-cols-2 gap-2">
-          {[
-            { value: "reader", label: "Read articles" },
-            { value: "writer", label: "Write articles" },
-          ].map((option) => (
-            <label
-              key={option.value}
-              className="cursor-pointer rounded-[11px] border border-black/10 px-3 py-2.5 text-center has-[:checked]:border-apple-blue has-[:checked]:ring-2 has-[:checked]:ring-apple-blue/30"
-            >
-              <input
-                type="radio"
-                name="role"
-                value={option.value}
-                defaultChecked={option.value === "reader"}
-                className="sr-only"
-              />
-              {option.label}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-      <Field label="Username" hint="3–20 characters: a–z, 0–9 and _">
-        <input name="username" autoComplete="username" required className={inputClass} />
+      <Field label="Name" hint="Shown at the top and used to greet you.">
+        <input name="name" defaultValue={state.values?.name} maxLength={40} autoComplete="name" className={inputClass} />
       </Field>
-      <Field label="Display name" hint="Shown as the author name on your articles">
-        <input name="displayName" maxLength={40} className={inputClass} />
+      <Field label="Username" hint="3–20 characters: a–z, 0–9 and _">
+        <input name="username" defaultValue={state.values?.username} autoComplete="username" required className={inputClass} />
       </Field>
       <Field label="Password" hint="At least 4 characters">
         <input name="password" type="password" autoComplete="new-password" required className={inputClass} />
@@ -45,6 +23,9 @@ export default function SignupForm() {
       <button disabled={pending} className="btn-blue w-full">
         {pending ? "Creating account…" : "Create account"}
       </button>
+      <p className="type-micro text-center text-black/50">
+        Want to write? After signing up, apply for an author account in Settings.
+      </p>
     </form>
   );
 }
