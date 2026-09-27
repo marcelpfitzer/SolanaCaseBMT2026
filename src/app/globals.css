@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/* Apple-style design tokens (see ~/.claude/skills/apple-design-skill) */
+@theme {
+  --color-apple-black: #000000;
+  --color-apple-gray: #f5f5f7; /* light section background */
+  --color-apple-ink: #1d1d1f; /* main text on light backgrounds */
+  --color-apple-blue: #0071e3; /* the ONLY accent: buttons, focus */
+  --color-apple-link: #0066cc; /* text links on light backgrounds */
+  --color-apple-link-dark: #2997ff; /* text links on dark backgrounds */
+  --color-apple-dark-card: #272729;
+
+  /* SF Pro is built into Apple devices; others fall back to Helvetica/Arial. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Icons",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: var(--color-apple-gray);
+  color: var(--color-apple-ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography scale from the design system */
+@layer components {
+  .type-hero {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.07;
+    letter-spacing: -0.28px;
+  }
+  .type-section {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+  .type-tile {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: 0.196px;
+  }
+  .type-sub {
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.19;
+    letter-spacing: 0.231px;
+  }
+  .type-caption {
+    font-size: 14px;
+    line-height: 1.29;
+    letter-spacing: -0.224px;
+  }
+  .type-micro {
+    font-size: 12px;
+    line-height: 1.33;
+    letter-spacing: -0.12px;
+  }
+
+  /* Mobile: headlines shrink 56 → 40, 40 → 28 */
+  @media (max-width: 640px) {
+    .type-hero {
+      font-size: 40px;
+      line-height: 1.1;
+    }
+    .type-section {
+      font-size: 28px;
+      line-height: 1.14;
+    }
+    .type-tile {
+      font-size: 24px;
+    }
+  }
+
+  /* Buttons */
+  .btn-blue {
+    background: var(--color-apple-blue);
+    color: #fff;
+    border-radius: 980px;
+    padding: 8px 18px;
+    font-size: 17px;
+    line-height: 1.47;
+    transition: background 0.2s;
+  }
+  .btn-blue:hover:not(:disabled) {
+    background: #0077ed;
+  }
+  .btn-blue:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .btn-pill {
+    border: 1px solid var(--color-apple-link);
+    color: var(--color-apple-link);
+    border-radius: 980px;
+    padding: 6px 16px;
+    font-size: 14px;
+    letter-spacing: -0.224px;
+  }
+  .btn-pill:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+  .btn-pill:disabled {
+    opacity: 0.4;
+  }
+}
+
+/* Soft fade + rise for content that changes (e.g. the story/podcast filter) */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-in {
+  animation: fade-in 0.35s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    animation: none;
+  }
+}
+
+/* Keyboard focus: Apple Blue ring on everything */
+:focus-visible {
+  outline: 2px solid var(--color-apple-blue);
+  outline-offset: 2px;
+}
+
+/* Small pill buttons in the dark navigation bar */
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 14px;
+  border-radius: 980px;
+  font-size: 12px;
+  letter-spacing: -0.12px;
+  transition: background 0.2s;
+}
+
+/* Wallet button (Settings page): white pill instead of the library's purple */
+.wallet-adapter-button.wallet-adapter-button-trigger {
+  background: #fff;
+  color: var(--color-apple-ink);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 980px;
+  height: 44px;
+  padding: 0 20px;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.374px;
+}
+.wallet-adapter-button.wallet-adapter-button-trigger:not([disabled]):hover {
+  background: #fafafc;
+  border-color: rgba(0, 0, 0, 0.24);
+}
+.wallet-adapter-button-trigger .wallet-adapter-button-start-icon,
+.wallet-adapter-button-trigger .wallet-adapter-button-start-icon img {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+/* The copy/disconnect dropdown under the wallet button */
+.wallet-adapter-dropdown-list {
+  background: #fff;
+  box-shadow: 3px 5px 30px rgba(0, 0, 0, 0.22);
+  font-family: var(--font-sans);
+}
+.wallet-adapter-dropdown-list-item {
+  color: var(--color-apple-ink);
+  font-weight: 400;
+}
+.wallet-adapter-dropdown-list-item:not([disabled]):hover {
+  background: var(--color-apple-gray);
+}

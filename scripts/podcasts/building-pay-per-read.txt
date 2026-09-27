@@ -1,0 +1,27 @@
+DAN: Welcome to Paid Attention. I'm Dan.
+SAM: And I'm Sam. Today we're going behind the scenes. What does it actually take to build a pay per read app on Solana?
+DAN: Let's walk through it from the reader's side. You open an article, you read the teaser, and you want more.
+SAM: First question for the builder: where is the full text at that moment?
+DAN: Not in your browser. That's the first rule. If the full text is already on the page, just hidden, anyone can open the developer tools and read it for free.
+SAM: So the full text stays on the server until the payment is confirmed.
+DAN: Right. Then the reader clicks unlock. The page builds a transaction: move this amount from the reader's wallet to the writer's wallet.
+SAM: And the wallet signs it. That's the moment the reader approves the payment.
+DAN: Then the transaction goes to the network, and a few seconds later it's confirmed.
+SAM: Now here's the part that beginners often skip. The browser says: I paid, please unlock. Should the server believe it?
+DAN: Never. The browser is not trustworthy. Anyone can send a request that says I paid.
+SAM: So the server looks up the transaction on the blockchain itself. Does it exist? Did it succeed? Did it send enough money, from this reader, to this writer?
+DAN: And one more check that's easy to forget: has this transaction been used before?
+SAM: Oh, good point. Otherwise one payment could unlock every article on the site.
+DAN: Exactly. So the server stores each transaction signature once, in a database. If it shows up again, it's rejected.
+SAM: What kind of database do you need for that?
+DAN: For a prototype, something small like SQLite is plenty. It's just a file on the server. You store users, articles and purchases.
+SAM: Then there's the question of accounts. Why do you even need a login if you have a wallet?
+DAN: Good question. A wallet address alone doesn't prove who is asking. If purchases were linked only to an address, someone could type in your address and read your articles.
+SAM: So linking purchases to a logged-in account closes that gap. The login proves who you are, and the blockchain proves you paid.
+DAN: And then there's the network. Everything we described runs on devnet, where test tokens are free.
+SAM: With one annoying catch: the free faucets are often rate limited. So for a live demo, it's smart to prepare funded wallets in advance.
+DAN: Lesson learned the hard way, I think.
+SAM: Probably by every hackathon team ever.
+DAN: To sum up: keep the content on the server, let the wallet sign, verify every payment yourself, and never accept the same payment twice.
+SAM: That's the recipe. Thanks for listening to Paid Attention.
+DAN: See you next time.

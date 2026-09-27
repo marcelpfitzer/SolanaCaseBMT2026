@@ -1,0 +1,25 @@
+SAM: Welcome back to Paid Attention. I'm Sam.
+DAN: I'm Dan. And today we're doing a beginner's guide: keys, seed phrases and wallets. What they are, and how not to lose your money.
+SAM: Let's clear up the biggest misunderstanding first. A crypto wallet doesn't actually hold your money.
+DAN: Which sounds strange. It's called a wallet.
+SAM: I know. But the tokens live on the blockchain, which is a shared public ledger. What your wallet holds is a key. The key proves that you are allowed to move the tokens at your address.
+DAN: So there are two parts. A public address, and a private key.
+SAM: Right. The address is like your bank account number. You can share it with anyone who wants to send you money.
+DAN: And the private key is like the signature that authorises a payment. Except nobody can ever reset it for you.
+SAM: Exactly. When you press unlock on an article, your wallet uses the private key to sign that exact payment. The network checks the signature and knows it really came from you.
+DAN: Then what's a seed phrase?
+SAM: It's a list of usually twelve or twenty-four ordinary words. Your wallet creates it when you set it up, and all your keys can be recreated from it.
+DAN: So if my laptop breaks, I type in the seed phrase on a new device and my wallet comes back.
+SAM: Yes. Which also means that anyone who gets your seed phrase gets your wallet. Completely.
+DAN: So rule number one?
+SAM: Never type your seed phrase into a website. Never send it to anyone. No real support team will ever ask for it.
+DAN: Rule number two: write it down on paper and store it somewhere safe. Not in a screenshot, not in a notes app that syncs to the cloud.
+SAM: Rule number three: use a separate wallet with a small balance for trying out new apps. Like carrying a bit of cash in your pocket and leaving your savings at home.
+DAN: And on this website there's also the demo wallet, right?
+SAM: Yes, and it's a good example of a trade-off. The demo wallet keeps its key inside the browser, so it's super easy to use. No app to install.
+DAN: But that also makes it less safe.
+SAM: Exactly. Any code running on the page could read that key. That's fine on devnet, the test network where the money has no value. You would never do that with real money.
+DAN: Let's recap. Your address is public and safe to share. Your private key signs payments. Your seed phrase is the master copy of your keys.
+SAM: And the seed phrase stays offline, on paper, and away from every website.
+DAN: That's it for today. Thanks for listening to Paid Attention.
+SAM: Stay safe, and see you next time.

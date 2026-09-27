@@ -1,0 +1,25 @@
+SAM: Welcome to Paid Attention, the payperread podcast about how we pay for the things we read and hear. I'm Sam.
+DAN: And I'm Dan. Today's episode is called The Five-Cent Question. Can tiny payments actually keep journalism alive?
+SAM: Let's start with the problem. Most people read news from many different places. A link from a friend here, a search result there.
+DAN: Right. And almost every one of those sites asks for a monthly subscription. Which makes sense for the publisher, but it's a big ask for someone who wants to read one article.
+SAM: So most readers just leave. They hit the paywall, sigh, and close the tab.
+DAN: Which means the newsroom gets nothing. Not even the few cents that reader might have happily paid.
+SAM: That's the gap micropayments try to fill. Instead of ten euros a month, you pay five cents for the one story you actually want.
+DAN: The idea is old though. People have been talking about micropayments since the early days of the web. Why didn't it work before?
+SAM: Mostly fees. Card payments usually carry a fixed fee per transaction. If the fee is bigger than the payment, charging five cents simply doesn't make sense.
+DAN: And there's the friction. Typing in card details to read one article? Nobody does that.
+SAM: Exactly. So two things have to be true. The payment has to be almost free to send, and it has to take one click.
+DAN: And that's where blockchains come in. On a fast network like Solana, sending a payment costs a tiny fraction of a cent and settles in seconds.
+SAM: Plus, with a wallet already connected, paying really is one click. You approve, it's done.
+DAN: Let me play devil's advocate. Doesn't paying for every single article create a kind of mental tax? Every time, you have to decide: is this worth five cents?
+SAM: That's a fair point, and researchers have a name for it: decision fatigue. Small prices can still feel like a hurdle.
+DAN: So how do you reduce that?
+SAM: A few ideas. Show a generous teaser, so readers know what they're buying. Keep the price fixed and low, so it becomes a habit rather than a calculation. And maybe offer a daily cap, where you never pay more than a certain amount per day.
+DAN: I like the cap. It feels like a subscription, but you only pay for what you use.
+SAM: And there's another benefit for writers. With direct payments, the money goes straight to the person who wrote the piece.
+DAN: No platform in between taking a big cut.
+SAM: Right. For a freelance writer, that's a real change. Every story becomes its own small product.
+DAN: So, back to the question. Can five cents save journalism?
+SAM: On its own, probably not. But it can reach the readers subscriptions never reach. And that's most readers.
+DAN: That's a good place to stop. Thanks for listening to Paid Attention.
+SAM: See you next time.
