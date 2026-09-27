@@ -38,6 +38,7 @@ export default function ProfileSettings({ name, avatar, icons }: Props) {
       {/* Picture */}
       <div className="border-t border-black/10 pt-6">
         <p className="type-caption font-semibold">Profile picture</p>
+        <p className="type-micro mt-1 text-black/50">PNG, JPG, WebP or GIF, up to 20 MB.</p>
         <div className="mt-4 flex flex-wrap items-center gap-5">
           {preview ? (
             <Image src={preview} alt="" width={72} height={72} unoptimized className="h-[72px] w-[72px] rounded-full object-cover" />

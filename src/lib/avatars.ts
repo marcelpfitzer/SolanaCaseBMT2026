@@ -9,7 +9,7 @@ import { extname, join, resolve } from "node:path";
 
 const ICON_DIR = resolve("public", "avatar-icons");
 export const UPLOAD_DIR = resolve("media", "avatars");
-export const MAX_AVATAR_MB = 2;
+export const MAX_AVATAR_MB = 20;
 
 export const IMAGE_TYPES: Record<string, string> = {
   ".png": "image/png",

@@ -27,7 +27,16 @@ export default async function Header() {
         </Link>
 
         {user ? (
-          <UserMenu username={user.username} name={user.display_name} avatar={user.avatar} role={user.role} />
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {/* Direct access to everything you bought (plain link, so it also opens offline) */}
+            <a href="/library" aria-label="Library" className="nav-pill text-white/90 hover:bg-white/10" style={{ gap: 8 }}>
+              <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2.5 2.5v11M5.5 2.5v11M8.5 3l3.2-.8 2.3 10.6-3.2.8z" />
+              </svg>
+              <span className="hidden sm:inline">Library</span>
+            </a>
+            <UserMenu username={user.username} name={user.display_name} avatar={user.avatar} role={user.role} />
+          </div>
         ) : (
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <Link href="/login" className="nav-pill text-white/90 hover:bg-white/10">

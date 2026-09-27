@@ -58,7 +58,7 @@ export default function UserMenu({ username, name, avatar, role }: Props) {
         }}
       >
         <Avatar avatar={avatar} name={shownName} size={32} />
-        <span data-name className="truncate font-medium" style={{ maxWidth: 160 }}>
+        <span data-name className="hidden truncate font-medium sm:inline" style={{ maxWidth: 160 }}>
           {shownName}
         </span>
         <svg
