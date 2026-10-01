@@ -25,8 +25,8 @@ Built solo by **Marcel Pfitzer** (GitHub `marcelpfitzer`, repo `marcelpfitzer/So
 | Thing | Where | Notes |
 | --- | --- | --- |
 | Web app | this repo | Next.js 16, TypeScript, Tailwind v4, wallet-adapter (Phantom + built-in Demo Wallet), SQLite via `node:sqlite` (Node 24+) |
-| Showcase video | `payperread-showcase.mp4` (≈50 MB, not in git) | 3:05 min, 1920×1080, English captions, fake cursor, **no audio** |
-| Pitch deck | `PayPerRead-Pitch.pptx` (≈52 MB, not in git) | 15 slides, 16:9, animated, video embedded on slide 5, speaker notes on every slide |
+| Showcase video | `pitch/payperread-showcase.mp4` (≈50 MB) | 3:05 min, 1920×1080, English captions, fake cursor, **no audio** |
+| Pitch deck | `pitch/PayPerRead-Pitch.pptx` (≈52 MB) + `pitch/PayPerRead-Pitch.pdf` | 15 slides, 16:9, animated, video embedded on slide 5, speaker notes on every slide |
 | Deck generator | `pitch/build_deck.py` + `pitch/img/` | python-pptx; rebuilds the .pptx from code |
 | Video recorder | `pitch/record/` | scripted Chrome run + macOS-only Swift encoder (see `pitch/README.md`) |
 
@@ -98,11 +98,18 @@ Animations: every slide fades in, and its elements build automatically (fade + "
 
 - Setup: `git clone`, `npm install`, `npm run dev` → http://localhost:3000. Needs **Node 24+** (`node:sqlite`).
 - **Fonts:** the deck uses "Helvetica Neue". On Windows, PowerPoint substitutes another font (usually Arial), so line breaks may shift. If it looks off, set `FONT` in `pitch/build_deck.py` (e.g. "Arial" or "Segoe UI") and rebuild, or replace the font in PowerPoint (Home → Replace → Replace Fonts).
-- Rebuilding the deck works on any OS (Python + python-pptx); put the video into `pitch/` first.
+- Rebuilding the deck works on any OS (Python + python-pptx). Re-export the PDF afterwards (PowerPoint: File → Export → PDF).
 - **Re-recording the video is macOS-only as written** (Swift encoder). On Windows, swap `encode.swift` for ffmpeg, e.g. build a concat list from `frames.json` timestamps.
 - Editing the deck by hand in PowerPoint is fine, but `build_deck.py` won't know about those edits. Decide on one way per change.
 
-## 10. Open points
+## 10. Bounty submission
+
+Bounty: https://superteam.fun/earn/listing/build-at-whu ("Build an MVP with Solana at WHU", Superteam Germany, 1st $1,500 / 2nd $1,000 / 3rd $500 in USDG).
+**Deadline: 4 Oct 2026, 23:59 German time** (21:59:59 UTC). The submission can be edited until then.
+Requirements: participant at WHU Hackathon 2026 · working prototype using Solana · pitch-deck link in the "Bounty submission link" field · public GitHub repo · follow https://x.com/SuperteamDE.
+Deck link to submit: the PDF on GitHub (`pitch/PayPerRead-Pitch.pdf`). The README's "Hackathon submission" section has all links, including real Devnet transactions.
+
+## 11. Open points
 
 - **Filter tabs sometimes don't react to clicks** (All / Stories / Podcasts): seen in automated runs right after login, not reproducible later, cause unknown. Possibly what Marcel meant by "you can't click here anymore" (his screenshot never arrived).
 - Video slightly soft (see section 7); no voice-over yet.

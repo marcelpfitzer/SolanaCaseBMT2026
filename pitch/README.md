@@ -1,12 +1,12 @@
 # Pitch material
 
-The finished files are too big for git: `payperread-showcase.mp4` (≈50 MB) and `PayPerRead-Pitch.pptx` (≈52 MB).
-Keep them in cloud storage. To rebuild either one, follow the steps below.
+Finished files in this folder: `PayPerRead-Pitch.pdf` (deck as PDF), `PayPerRead-Pitch.pptx` (≈52 MB, animated, video embedded)
+and `payperread-showcase.mp4` (≈50 MB). They are too big for GitHub's web upload (25 MB), so update them with git.
+To rebuild either one, follow the steps below.
 
 ## Pitch deck
 
 ```bash
-cp ~/path/to/payperread-showcase.mp4 pitch/   # the deck embeds it
 python3 -m venv .venv && .venv/bin/pip install python-pptx lxml pillow
 .venv/bin/python pitch/build_deck.py PayPerRead-Pitch.pptx
 ```

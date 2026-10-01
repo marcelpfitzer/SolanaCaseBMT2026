@@ -49,9 +49,7 @@ next-env.d.ts
 # Uploaded profile pictures
 /media/avatars
 
-# pitch: large files and the video wallet's secret key
-/pitch/*.mp4
-/pitch/*.pptx
+# pitch: build outputs and the video wallet's secret key
 /pitch/record/node_modules
 /pitch/record/frames
 /pitch/record/frames.json

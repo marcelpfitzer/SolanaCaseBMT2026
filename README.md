@@ -4,6 +4,19 @@ Hackathon prototype: a news site where readers pay **€0.05 per article** and *
 
 Stack: Next.js 16 + TypeScript + Tailwind, Solana wallet-adapter (Phantom + a built-in Demo Wallet), SQLite (Node's built-in `node:sqlite`).
 
+## Hackathon submission
+
+Built for **Superteam Germany's "Build an MVP with Solana at WHU"** bounty (WHU Business meets Tech hackathon 2026) by **Marcel Pfitzer** (solo).
+
+- **Pitch deck:** [PDF, opens in the browser](pitch/PayPerRead-Pitch.pdf) · [PowerPoint with animations and embedded video](https://github.com/marcelpfitzer/SolanaCaseBMT2026/raw/main/pitch/PayPerRead-Pitch.pptx)
+- **Demo video (3 min):** [payperread-showcase.mp4](https://github.com/marcelpfitzer/SolanaCaseBMT2026/raw/main/pitch/payperread-showcase.mp4): a reader pays €0.05 on Devnet, an author gets approved, the writer sees the sale live.
+- **Real Devnet payments made with the app** (SOL transfer to the writer + memo `payperread:<id>`):
+  [story "Why a Coffee Costs More Than a Good Story"](https://explorer.solana.com/tx/5WXuf8Qjy9LWeywDwCaSnybjip1v5y97Vw96xPF7D8DMqd9PiskKQPgj7JWG6X2TuJ8yxLRmMXoBimAAF4Zg3nUN?cluster=devnet) ·
+  [story "Stablecoins, Explained Without the Hype"](https://explorer.solana.com/tx/5QmR7pfHNPKk4J5BU2Zwv86BVD8gSZGYKvP4CgoNnwvvZu2damPUGyU1AxMVpZvHcnQ6csZ9yCW9Mo8YKWP82Et7?cluster=devnet) ·
+  [podcast "The Five-Cent Question"](https://explorer.solana.com/tx/4JXovBR5ZazVNcbzSosGje2GRcQV9AcmMyPp8sUDzd1J3cDo7ckq8LYps5VGCcquGqZTVuHo1KG3nAjrdjNgcko4?cluster=devnet)
+
+**How Solana is used:** every purchase is a Solana transfer straight from the reader's wallet to the writer's wallet (no platform account in between). A memo on the same transaction records which item was bought; the server verifies the transaction on-chain before unlocking, and readers can restore their purchases from their wallet history. Network fees are a fraction of a cent, which makes €0.05 payments possible in the first place.
+
 ## Run it locally
 
 You need [Node.js](https://nodejs.org) 24 or newer.
