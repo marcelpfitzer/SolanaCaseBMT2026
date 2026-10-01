@@ -1,6 +1,6 @@
 # Knowledge file: PayPerRead
 
-For a new Claude session (e.g. on Marcel's desktop PC). It sums up everything from the first build session
+For a new Claude session (e.g. on another computer). It sums up everything from the first build session
 on the Mac (Sept 2026) that isn't obvious from the code. `README.md` covers features, demo accounts and how
 payments work: read both before changing anything. Last updated: 2026-10-01.
 
@@ -11,14 +11,13 @@ PayPerRead is a hackathon prototype for the **BMT 2026 Solana case**: a news sit
 goes **straight to the creator's wallet**. Slogan: **"Read what matters. Pay for just that."**
 Built solo by **Marcel Pfitzer** (GitHub `marcelpfitzer`, repo `marcelpfitzer/SolanaCaseBMT2026`).
 
-## 2. How Marcel works (please follow)
+## 2. Working conventions
 
-- He is a **beginner**: keep code simple and commented, explain changes in plain words, no jargon without explanation.
-- He writes in German or English; answer in his language. Product, website, video and deck are in **English**.
-- **Don't change the design unless asked.** He noticed and disliked unrequested changes (e.g. when the filter tabs changed shape). Apple-style design; tokens in `src/app/globals.css` (black `#000`, ink `#1d1d1f`, light gray `#f5f5f7`, the only accent blue `#0071e3`).
-- **Verify in a real browser** before saying something works (on the Mac: headless Chrome + puppeteer-core scripts).
-- **Commit/push only when he asks.**
-- He is the **only person** on the project (the deck's team slide says "One founder, end to end").
+- **Code style:** simple and well commented; explain changes in plain words.
+- **Language:** product, website, video and deck are in **English**; conversations can be German or English.
+- **Design:** keep the existing Apple-style look; change it only on request. Tokens in `src/app/globals.css` (black `#000`, ink `#1d1d1f`, light gray `#f5f5f7`, the only accent blue `#0071e3`).
+- **Testing:** verify changes in a real browser before calling them done (e.g. headless Chrome + puppeteer-core).
+- **Git:** commit and push only on request.
 
 ## 3. What exists (state on 2026-10-01)
 
@@ -111,6 +110,5 @@ Deck link to submit: the PDF on GitHub (`pitch/PayPerRead-Pitch.pdf`). The READM
 
 ## 11. Open points
 
-- **Filter tabs sometimes don't react to clicks** (All / Stories / Podcasts): seen in automated runs right after login, not reproducible later, cause unknown. Possibly what Marcel meant by "you can't click here anymore" (his screenshot never arrived).
+- **Filter tabs sometimes don't react to clicks** (All / Stories / Podcasts): seen in automated runs right after login, not reproducible later, cause unknown.
 - Video slightly soft (see section 7); no voice-over yet.
-- On the Mac, stray files from a bad copy sit in `~/.claude/skills` (CHANGELOG.md, SKILL.md, scripts, references, …). Marcel has the cleanup command; nothing to do on the PC.
