@@ -49,71 +49,65 @@ export function addSampleData(db: DatabaseSync) {
   if (!writer) return;
   const rand = random(2026);
 
-  db.exec("BEGIN");
-  try {
-    // 1. Topics for every demo item.
-    const setTopics = db.prepare("UPDATE articles SET topics = ? WHERE title = ?");
-    for (const [title, profile] of Object.entries(PROFILES)) setTopics.run(profile.topics, title);
+  // Runs inside the setup transaction in db.ts (all or nothing).
+  // 1. Topics for every demo item.
+  const setTopics = db.prepare("UPDATE articles SET topics = ? WHERE title = ?");
+  for (const [title, profile] of Object.entries(PROFILES)) setTopics.run(profile.topics, title);
 
-    // 2. Spread writer_demo's items over the last ~75 days (newest first), so the history makes sense.
-    const items = db
-      .prepare("SELECT id, title, price_cents FROM articles WHERE writer_id = ? ORDER BY created_at DESC")
-      .all(writer.id) as { id: number; title: string; price_cents: number }[];
-    const setDate = db.prepare("UPDATE articles SET created_at = datetime('now', ?) WHERE id = ?");
-    items.forEach((item, i) => setDate.run(`-${2 + i * 5} days`, item.id));
+  // 2. Spread writer_demo's items over the last ~75 days (newest first), so the history makes sense.
+  const items = db
+    .prepare("SELECT id, title, price_cents FROM articles WHERE writer_id = ? ORDER BY created_at DESC")
+    .all(writer.id) as { id: number; title: string; price_cents: number }[];
+  const setDate = db.prepare("UPDATE articles SET created_at = datetime('now', ?) WHERE id = ?");
+  items.forEach((item, i) => setDate.run(`-${2 + i * 5} days`, item.id));
 
-    // 3. Sample readers (can't log in: the password hash is not a valid hash).
-    const addReader = db.prepare(
-      "INSERT OR IGNORE INTO users (username, password_hash, role, display_name, is_sample) VALUES (?, ?, 'reader', ?, 1)",
-    );
-    for (let n = 1; n <= SAMPLE_READERS; n++) {
-      const num = String(n).padStart(3, "0");
-      addReader.run(`sample_reader_${num}`, `!sample:${randomBytes(8).toString("hex")}`, `Sample Reader ${num}`);
-    }
-    const readerIds = (
-      db.prepare("SELECT id FROM users WHERE is_sample = 1 ORDER BY id").all() as { id: number }[]
-    ).map((r) => r.id);
+  // 3. Sample readers (can't log in: the password hash is not a valid hash).
+  const addReader = db.prepare(
+    "INSERT OR IGNORE INTO users (username, password_hash, role, display_name, is_sample) VALUES (?, ?, 'reader', ?, 1)",
+  );
+  for (let n = 1; n <= SAMPLE_READERS; n++) {
+    const num = String(n).padStart(3, "0");
+    addReader.run(`sample_reader_${num}`, `!sample:${randomBytes(8).toString("hex")}`, `Sample Reader ${num}`);
+  }
+  const readerIds = (
+    db.prepare("SELECT id FROM users WHERE is_sample = 1 ORDER BY id").all() as { id: number }[]
+  ).map((r) => r.id);
 
-    // 4. Views and sales, day by day.
-    const addView = db.prepare("INSERT OR IGNORE INTO article_views (article_id, viewer, day) VALUES (?, ?, ?)");
-    const addSale = db.prepare(
-      `INSERT OR IGNORE INTO purchases (signature, user_id, article_id, payer_wallet, writer_wallet, lamports, created_at, is_sample)
-       VALUES (?, ?, ?, 'SampleWallet', 'SampleWallet', ?, ?, 1)`,
-    );
+  // 4. Views and sales, day by day.
+  const addView = db.prepare("INSERT OR IGNORE INTO article_views (article_id, viewer, day) VALUES (?, ?, ?)");
+  const addSale = db.prepare(
+    `INSERT OR IGNORE INTO purchases (signature, user_id, article_id, payer_wallet, writer_wallet, lamports, created_at, is_sample)
+     VALUES (?, ?, ?, 'SampleWallet', 'SampleWallet', ?, ?, 1)`,
+  );
 
-    items.forEach((item, i) => {
-      const profile = PROFILES[item.title];
-      if (!profile) return;
-      const ageDays = Math.min(DAYS, 2 + i * 5);
-      const buyers = [...readerIds].sort(() => rand() - 0.5); // each reader buys an item at most once
-      let saleNo = 0;
+  items.forEach((item, i) => {
+    const profile = PROFILES[item.title];
+    if (!profile) return;
+    const ageDays = Math.min(DAYS, 2 + i * 5);
+    const buyers = [...readerIds].sort(() => rand() - 0.5); // each reader buys an item at most once
+    let saleNo = 0;
 
-      for (let daysAgo = ageDays; daysAgo >= 0; daysAgo--) {
-        const sinceLaunch = ageDays - daysAgo;
-        const launchBoost = 1 + 1.5 * Math.exp(-sinceLaunch / 3); // busy first days
-        const growth = 0.8 + 0.4 * (1 - daysAgo / DAYS); // the site grows slowly
-        const weekday = new Date(Date.now() - daysAgo * 86_400_000).getUTCDay();
-        const weekend = weekday === 0 || weekday === 6 ? 0.7 : 1;
-        const views = Math.round(profile.views * launchBoost * growth * weekend * (0.6 + rand() * 0.8));
-        const day = dayString(daysAgo);
+    for (let daysAgo = ageDays; daysAgo >= 0; daysAgo--) {
+      const sinceLaunch = ageDays - daysAgo;
+      const launchBoost = 1 + 1.5 * Math.exp(-sinceLaunch / 3); // busy first days
+      const growth = 0.8 + 0.4 * (1 - daysAgo / DAYS); // the site grows slowly
+      const weekday = new Date(Date.now() - daysAgo * 86_400_000).getUTCDay();
+      const weekend = weekday === 0 || weekday === 6 ? 0.7 : 1;
+      const views = Math.round(profile.views * launchBoost * growth * weekend * (0.6 + rand() * 0.8));
+      const day = dayString(daysAgo);
 
-        for (let v = 0; v < views; v++) {
-          addView.run(item.id, `sample:${Math.floor(rand() * 5000)}`, day);
-          if (rand() < profile.conversion && saleNo < buyers.length) {
-            // A time on that day, but never in the future (today: some minutes/hours ago).
-            const time =
-              daysAgo === 0
-                ? new Date(Date.now() - (30 + rand() * 300) * 60_000).toISOString().slice(0, 19).replace("T", " ")
-                : `${day} ${String(8 + Math.floor(rand() * 14)).padStart(2, "0")}:${String(Math.floor(rand() * 60)).padStart(2, "0")}:00`;
-            addSale.run(`SAMPLE-${item.id}-${saleNo}`, buyers[saleNo], item.id, priceLamports(item.price_cents), time);
-            saleNo++;
-          }
+      for (let v = 0; v < views; v++) {
+        addView.run(item.id, `sample:${Math.floor(rand() * 5000)}`, day);
+        if (rand() < profile.conversion && saleNo < buyers.length) {
+          // A time on that day, but never in the future (today: some minutes/hours ago).
+          const time =
+            daysAgo === 0
+              ? new Date(Date.now() - (30 + rand() * 300) * 60_000).toISOString().slice(0, 19).replace("T", " ")
+              : `${day} ${String(8 + Math.floor(rand() * 14)).padStart(2, "0")}:${String(Math.floor(rand() * 60)).padStart(2, "0")}:00`;
+          addSale.run(`SAMPLE-${item.id}-${saleNo}`, buyers[saleNo], item.id, priceLamports(item.price_cents), time);
+          saleNo++;
         }
       }
-    });
-    db.exec("COMMIT");
-  } catch (error) {
-    db.exec("ROLLBACK");
-    throw error;
-  }
+    }
+  });
 }
