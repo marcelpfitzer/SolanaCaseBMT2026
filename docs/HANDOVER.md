@@ -49,7 +49,7 @@ Articles and podcasts with free teasers and paid full content · logins with rol
 ## 5. Local data (not in git)
 
 - `data/payperread.sqlite` is created and seeded on first start. A fresh clone gets demo accounts, 12 stories, 3 podcasts and sample sales. Delete `data/` to start over.
-- `media/avatars/`: uploaded photos (Daniel = `demo`, Franzi = `writer_demo`) exist only on the Mac. On a fresh clone the profiles show initials. The originals are AI-generated portraits Marcel can upload again in Settings.
+- `media/avatars/`: uploaded profile photos (git-ignored). On first start the demo photos from `media/demo-avatars/` (in git) are copied there, so `demo` = **Daniel** and `writer_demo` = **Franzi** with photos, like in the video.
 - `.env.local` (Mac only) holds the secret key of the publisher wallet. **The app does not need it**; only `pitch/record/fund.mjs` does.
 
 ## 6. Solana Devnet

@@ -2,7 +2,7 @@
 // The file is created automatically at data/payperread.sqlite, filled with the
 // demo accounts and articles on first start.
 
-import { mkdirSync, readFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 import { hashPassword } from "./password";
 import { PRICE_CENTS } from "./config";
@@ -108,12 +108,19 @@ function setUp() {
 
   const userCount = db.prepare("SELECT COUNT(*) AS n FROM users").get() as { n: number };
   if (userCount.n === 0) {
+    // Profile photos for the demo accounts: kept in git under media/demo-avatars/ and
+    // copied to where uploaded photos live, so they behave like normal uploads.
+    mkdirSync("media/avatars", { recursive: true });
+    for (const file of ["daniel.jpg", "franzi.jpg"]) {
+      copyFileSync(`media/demo-avatars/${file}`, `media/avatars/demo-${file}`);
+    }
+
     const addUser = db.prepare(
-      "INSERT INTO users (username, password_hash, role, display_name, wallet) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO users (username, password_hash, role, display_name, wallet, avatar) VALUES (?, ?, ?, ?, ?, ?)",
     );
-    addUser.run("admin", hashPassword("1234"), "admin", "Admin", null);
-    addUser.run("writer_demo", hashPassword("1234"), "writer", "Demo Writer", WRITER_DEMO_WALLET);
-    addUser.run("demo", hashPassword("1234"), "reader", "Demo Reader", null);
+    addUser.run("admin", hashPassword("1234"), "admin", "Admin", null, null);
+    addUser.run("writer_demo", hashPassword("1234"), "writer", "Franzi", WRITER_DEMO_WALLET, "upload:demo-franzi.jpg");
+    addUser.run("demo", hashPassword("1234"), "reader", "Daniel", null, "upload:demo-daniel.jpg");
   }
 
   // ---------- Demo content (added once per content version) ----------
