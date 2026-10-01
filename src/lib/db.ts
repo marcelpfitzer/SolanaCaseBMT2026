@@ -2,7 +2,7 @@
 // The file is created automatically at data/payperread.sqlite, filled with the
 // demo accounts and articles on first start.
 
-import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 import { hashPassword } from "./password";
 import { PRICE_CENTS } from "./config";
@@ -108,13 +108,6 @@ function setUp() {
 
   const userCount = db.prepare("SELECT COUNT(*) AS n FROM users").get() as { n: number };
   if (userCount.n === 0) {
-    // Profile photos for the demo accounts: kept in git under media/demo-avatars/ and
-    // copied to where uploaded photos live, so they behave like normal uploads.
-    mkdirSync("media/avatars", { recursive: true });
-    for (const file of ["daniel.jpg", "franzi.jpg"]) {
-      copyFileSync(`media/demo-avatars/${file}`, `media/avatars/demo-${file}`);
-    }
-
     const addUser = db.prepare(
       "INSERT INTO users (username, password_hash, role, display_name, wallet, avatar) VALUES (?, ?, ?, ?, ?, ?)",
     );
@@ -122,6 +115,20 @@ function setUp() {
     addUser.run("writer_demo", hashPassword("1234"), "writer", "Franzi", WRITER_DEMO_WALLET, "upload:demo-franzi.jpg");
     addUser.run("demo", hashPassword("1234"), "reader", "Daniel", null, "upload:demo-daniel.jpg");
   }
+
+  // Demo profile photos: kept in git under media/demo-avatars/ and copied to where uploaded
+  // photos live (so they behave like normal uploads). Checked on every start, so they also
+  // appear in databases created by an older version ("Demo Reader" / "Demo Writer", no photo).
+  // Accounts whose name or picture was changed are left alone.
+  mkdirSync("media/avatars", { recursive: true });
+  for (const file of ["daniel.jpg", "franzi.jpg"]) {
+    if (!existsSync(`media/avatars/demo-${file}`)) copyFileSync(`media/demo-avatars/${file}`, `media/avatars/demo-${file}`);
+  }
+  const giveDemoProfile = db.prepare(
+    "UPDATE users SET display_name = ?, avatar = ? WHERE username = ? AND display_name = ? AND avatar IS NULL",
+  );
+  giveDemoProfile.run("Daniel", "upload:demo-daniel.jpg", "demo", "Demo Reader");
+  giveDemoProfile.run("Franzi", "upload:demo-franzi.jpg", "writer_demo", "Demo Writer");
 
   // ---------- Demo content (added once per content version) ----------
 
