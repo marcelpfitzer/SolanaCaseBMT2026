@@ -48,3 +48,14 @@ next-env.d.ts
 
 # Uploaded profile pictures
 /media/avatars
+
+# pitch: large files and the video wallet's secret key
+/pitch/*.mp4
+/pitch/*.pptx
+/pitch/record/node_modules
+/pitch/record/frames
+/pitch/record/frames.json
+/pitch/record/encode
+/pitch/record/video-wallet.json
+/pitch/record/video-fail.png
+/.venv
